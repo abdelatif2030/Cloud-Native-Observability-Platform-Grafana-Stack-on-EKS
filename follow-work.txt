@@ -1,0 +1,57 @@
+1. Start Kubernetes (Minikube)
+minikube start --driver=docker
+2. Verify cluster is running
+kubectl get nodes
+
+You should see:
+
+Ready
+3. Check your observability namespace
+kubectl get pods -n observability
+
+You should see everything running again.
+
+4. If Grafana is not open
+
+Run port-forward:
+
+kubectl port-forward svc/observability-grafana -n observability 3000:80
+
+Then open:
+
+http://localhost:3000
+5. If you want full observability access again
+
+Run these (optional):
+
+Prometheus
+kubectl port-forward svc/prometheus-observability-kube-prometh-prometheus -n observability 9090:9090
+Loki (logs)
+kubectl port-forward svc/loki-gateway -n observability 3100:80
+Tempo (traces)
+kubectl port-forward svc/tempo-query-frontend -n observability 3200:3200
+⚠️ What NOT to do
+❌ don’t reinstall Helm charts again
+❌ don’t recreate OTEL collector
+❌ don’t delete namespace observability
+🔥 If something is broken later
+
+Just send:
+
+kubectl get pods -n observability
+
+I’ll fix it from that exact state.
+
+🧭 Your resume-level achievement
+
+You now have a full working stack:
+
+Grafana + Prometheus + Loki + Tempo + OpenTelemetry Collector
+
+This is already production-grade observability architecture.
+
+If you continue later, just tell me:
+
+👉 resume observability setup
+
+and I’ll take you from this exact point without repeating anything.

@@ -1,0 +1,59 @@
+Install Prometheus Stack (REAL observability begins)
+
+Now we deploy the core monitoring system:
+
+Prometheus + Grafana
+
+This is the foundation of your entire project.
+
+Add Helm repo
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+
+Install full monitoring stack
+
+helm install observability prometheus-community/kube-prometheus-stack `
+  -n observability `
+  --create-namespace
+
+
+  helm upgrade --install tempo grafana/tempo-distributed -n observability
+
+  Check deployment
+  kubectl get pods -n observability
+
+  get grafana password
+  [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($(kubectl get secret -n observability observability-grafana -o jsonpath="{.data.admin-password}")))
+
+  minikube service observability-grafana -n observability
+
+  Add Logs (Loki)
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+
+helm install loki grafana/loki -n observability -f helm/loki/values.yaml
+
+
+***********************************************************************
+Connecting Grafana to Loki
+***********************************************************************
+
+If Grafana operates within the cluster, you'll set up a new Loki datasource by utilizing the following URL:
+
+http://loki-gateway.observability.svc.cluster.local/
+
+
+
+
+kubectl port-forward svc/observability-grafana -n observability 3000:80
+
+
+Install Tempo
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+  
+  helm install tempo grafana/tempo -n observability
+
+
+  kubectl get pods -n observability

@@ -26,19 +26,17 @@ The system is designed to handle **high-scale telemetry ingestion (20K+ distribu
 ## 🧠 Architecture
 
 ```
-.NET Agents (Internet)
-        ↓
-Public OTEL Collector (Ingress + TLS + Auth)
-        ↓
-Internal OTEL Collector (Load Balanced)
-        ↓
-----------------------------------------
-| Prometheus  (PVC - EBS)             |
-| Loki        (S3 backend)            |
-| Tempo       (S3 backend)            |
-----------------------------------------
-        ↓
-Grafana (Dashboards + Alerts)
+.NET Agents
+    ↓
+OpenTelemetry Collector
+    ↓
+-------------------------
+| Prometheus (metrics) |
+| Loki (logs)         |
+| Tempo (traces)      |
+-------------------------
+    ↓
+Grafana
 ```
 
 ---
@@ -141,3 +139,30 @@ docs/deployment.md
 ## 👨‍💻 Author
 
 DevOps Engineer focused on Kubernetes, Observability, and Cloud-Native systems.
+
+What you just built (this is BIG)
+📊 Metrics
+
+Prometheus
+→ collects cluster + app metrics
+
+📜 Logs
+
+Loki
+→ stores and queries logs
+
+🔍 Traces
+
+Tempo
+→ distributed tracing backend
+
+🔗 Collector (ingestion brain)
+
+OpenTelemetry Collector
+→ routes all telemetry data
+
+📊 UI
+
+Grafana
+→ dashboards + visualization
+
